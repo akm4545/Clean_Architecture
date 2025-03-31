@@ -13,3 +13,20 @@ License에는 PersonalLicense와 BusinessLicense라는 두 가지 하위 타입�
 이 설계는 LSP를 준수하는데 Billing 애플리케이션의 행위가 License 하위 타입 중 무엇을 사용하는지에 전혀 의존하지 않기 때문이다. 이들 하위 타입은 
 모두 License 타입을 치환할 수 있다.  
   
+# **정사각형/직사각형 문제**  
+LSP를 위반하는 전형적인 문제로는 유명한(보는 관점에 따라서는 악명 높은) 정사각형/직사각형 문제가 있다.  
+  
+![img.png](image/img2.png)  
+  
+이 예제에서 Square는 Rectangle의 하위 타입으로는 적합하지 않은데 Rectangle의 높이와 너비는 서로 독립적으로 변경될 수 있는 반면 Square의 높이와 
+너비는 반드시 함께 변경되기 때문이다. User는 대화하고 있는 상태가 Rectangle이라고 생각하므로 혼동이 생길 수 있다. 아래의 코드를 보면 혼동의 이유가 
+분명해진다.  
+  
+![img.png](image/img3.png)  
+  
+... 코드에서 Square를 생성한다면 assert 문은 실패하게 된다.  
+  
+이런 형태의 LSP 위반을 막기 위한 유일한 방법은 (if문 등을 이용해서) Rectangle이 실제로는 Square인지를 검사하는 메커니즘을 User에 추가하는 
+것이다. 하지만 이렇게 하면 User의 행위가 사용하는 타입에 의존하게 되므로 결국 타입을 서로 치환할 수 없게 된다.  
+  
+
