@@ -110,4 +110,24 @@
   
 따라서 경계를 가로질러 데이터를 전달할 때 데이터는 항상 내부의 원에서 사용하기에 가장 편리한 형태를 가져야만 한다.  
   
+# **전형적인 시나리오**  
+![img.png](image/img2.png)  
+  
+위 그림의 다이어그램은 데이터베이스를 사용하는 웹 기반 자바 시스템의 전형적인 시나리오를 보여준다. 웹 서버는 사용자로부터 입력 데이터를 모아서 
+좌측 상단의 Controller로 전달한다. Controller는 데이터를 평범한 자바 객체(POJO)로 묶은 후 InputBoundary 인터페이스를 통해 UseCaseInteractor로 
+전달한다. UseCaseInteractor는 이 데이터를 해석해서 Entities가 어떻게 춤출지를 제어하는 데 사용한다. 또한 UseCaseInteractor는 DataAccessInterface를 
+사용하여 Entities가 사용할 데이터를 데이터베이스에서 불러와서 메모리에 로드한다. Entities가 완성되면 UseCaseInteractor는 Entities로부터 
+데이터를 모아서 또 다른 평범한 자바 객체인 OutputData를 구성한다. 그리고 나서 OutputData는 OutputBoundary 인터페이스를 통해 Presenter로 
+전달된다.  
+  
+Presenter가 맡은 역할은 OutputData를 ViewModel과 같이 화면에 출력할 수 있는 형식으로 재구성하는 일이다. ViewModel 또한 평범한 자바 객체다. 
+ViewModel은 주로 문자열과 플래그로 구성되며 View에서는 이 데이터를 화면에 출력한다. OutputData에서는 Date 객체를 포함할 수 있는 반면 Presenter는 
+ViewModel을 로드할 때 Date 객체를 사용자가 보기에 적절한 형식의 문자열로 변환한다. 이 변환은 Currency 객체나 다른 업무 관련 데이터 모두에 
+똑같이 적용된다. Button과 MenuItem의 이름은 ViewModel에 위치하며 해당 Button과 MenuItem을 비활설화할지를 알려주는 플래그 또한 ViewModel에 
+위치한다.  
+  
+따라서 ViewModel에서 HTML 페이지로 데이터를 옮기는 일을 빼면 View에서 해야 할 일은 거의 남이 있지 않다.  
+  
+의존성의 방향에 주목하라. 모든 의존성은 경계선을 안쪽으로 가로지르며 따라서 의존성 규칙을 준수한다.  
+  
 
